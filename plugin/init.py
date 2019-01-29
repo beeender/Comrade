@@ -3,7 +3,7 @@ import vim
 
 from pathlib import Path
 
-CONFIG_DIR = os.path.join(Path.home(), ".IntelliNeovim")
+CONFIG_DIR = os.path.join(Path.home(), ".ComradeNeovim")
 
 def pid_exists(pid):
     try:
@@ -16,6 +16,8 @@ def pid_exists(pid):
         return True # no error, we can send a signal to the process
 
 def clean_up():
+    if not os.path.isdir(CONFIG_DIR):
+        return
     for file in os.listdir(CONFIG_DIR):
         filename = os.fsdecode(file)
         try:

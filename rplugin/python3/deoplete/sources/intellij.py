@@ -6,7 +6,7 @@ class Source(Base):
     def __init__(self, vim):
         Base.__init__(self, vim)
 
-        self.name = 'intellij-complete'
+        self.name = 'ComradeIntelliJ-complete'
         self.mark = '[idea]'
         self.filetypes = ['java']
         self.rank = 100
@@ -35,4 +35,4 @@ class Source(Base):
             "path" : path,
             "row" : row,
             "col" : col};
-        return self.vim.call("ComradeRpcRequest", "IntelliJComplete", ret)
+        return self.vim.call("ComradeRpcRequest", "comrade_complete", ret)
