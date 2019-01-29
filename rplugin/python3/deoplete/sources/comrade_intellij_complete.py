@@ -7,7 +7,7 @@ class Source(Base):
         Base.__init__(self, vim)
 
         self.name = 'ComradeIntelliJ-complete'
-        self.mark = '[idea]'
+        self.mark = '[Cde]'
         self.filetypes = ['java']
         self.rank = 100
         self.max_pattern_length = 100
