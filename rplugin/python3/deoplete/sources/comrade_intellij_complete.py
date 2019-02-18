@@ -22,17 +22,19 @@ class Source(Base):
 
     def gather_candidates(self, context):
         #self.print_error(context)
-        buf = self.vim.current.buffer
+        buf_id = context["bufnr"]
+        buf_changedtick = self.vim.request("nvim_buf_get_changedtick", buf_id)
+        buf_name = self.vim.request("nvim_buf_get_name", buf_id)
         win = self.vim.current.window
-        path = buf.name
-
 
         row = win.cursor[0] - 1
         col = win.cursor[1]
         ret = {
-            "buf_id" : buf.number,
-            "buf_name" : buf.name,
-            "path" : path,
+            "buf_id" : buf_id,
+            "buf_name" : buf_name,
+            "buf_changedtick" : buf_changedtick,
             "row" : row,
             "col" : col};
-        return self.vim.call("ComradeRpcRequest", "comrade_complete", ret)
+        results = self.vim.call("ComradeRpcRequest", "comrade_complete", ret)
+        context["is_async"] = not results["is_finished"]
+        return results["candidates"]
