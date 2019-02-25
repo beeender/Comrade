@@ -8,17 +8,11 @@ class Source(Base):
 
         self.name = 'ComradeIntelliJ-complete'
         self.mark = '[Cde]'
-        self.filetypes = ['java']
+        self.filetypes = []
         self.rank = 100
         self.max_pattern_length = 100
-        self.is_bytepos = True
         self.input_pattern = '[^. \t0-9]\.\w*'
         self.is_debug_enabled = True
-
-    def get_complete_position(self, context):
-        m = re.search(r'\w*$', context['input'])
-        return m.start() if m else -1
-
 
     def gather_candidates(self, context):
         #self.print_error(context)
@@ -34,7 +28,8 @@ class Source(Base):
             "buf_name" : buf_name,
             "buf_changedtick" : buf_changedtick,
             "row" : row,
-            "col" : col};
+            "col" : col,
+            "new_request" : not context["is_async"]};
         results = self.vim.call("ComradeRpcRequest", "comrade_complete", ret)
         context["is_async"] = not results["is_finished"]
         return results["candidates"]
