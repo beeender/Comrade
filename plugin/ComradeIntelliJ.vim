@@ -5,7 +5,6 @@ exe "py3file" s:init_path
 
 call deoplete#enable()
 "call deoplete#enable_logging('DEBUG', 'deoplete.log')
-"autocmd VimLeave * lua require("main").deinit()
 
 function g:ComradeRpcNotify(event, ...)
     if g:ComradeNeovimId > 0
@@ -30,7 +29,10 @@ endfunction
 
 function s:NotifyNewBuffer()
     let l:bufId = nvim_get_current_buf()
-    call ComradeRpcNotify("comrade_buf_enter", {"id" : l:bufId, "path" : expand('%:p')})
+    let l:bufPath = expand('%:p')
+    if (filereadable(l:bufPath))
+        call ComradeRpcNotify("comrade_buf_enter", {"id" : l:bufId, "path" : l:bufPath})
+    endif
 endfunction
 
 autocmd BufEnter * call s:NotifyNewBuffer()
