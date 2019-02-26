@@ -1,8 +1,3 @@
-let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-let s:init_path = s:path . "/init.py"
-let g:ComradeNeovimId = -1
-exe "py3file" s:init_path
-
 call deoplete#enable()
 "call deoplete#enable_logging('DEBUG', 'deoplete.log')
 
@@ -35,5 +30,13 @@ function s:NotifyNewBuffer()
     endif
 endfunction
 
-autocmd BufEnter * call s:NotifyNewBuffer()
+if !exists("comrade_loaded")
+    let comrade_loaded = 1
+    let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+    let s:init_path = s:path . "/init.py"
+    let g:ComradeNeovimId = -1
+    exe "py3file" s:init_path
+
+    autocmd BufEnter * call s:NotifyNewBuffer()
+endif
 
