@@ -30,6 +30,11 @@ class Source(Base):
             "row" : row,
             "col" : col,
             "new_request" : not context["is_async"]};
-        results = self.vim.call("ComradeRpcRequest", "comrade_complete", ret)
-        context["is_async"] = not results["is_finished"]
-        return results["candidates"]
+        results = self.vim.call("ComradeRequestComplete", buf_id, ret)
+
+        if results:
+            context["is_async"] = not results["is_finished"]
+            return results["candidates"]
+
+        context["is_async"] = False
+        return []
