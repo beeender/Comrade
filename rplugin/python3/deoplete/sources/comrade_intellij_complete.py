@@ -9,7 +9,7 @@ class Source(Base):
         self.name = 'ComradeIntelliJ-complete'
         self.mark = '[Cde]'
         self.filetypes = []
-        self.rank = 100
+        self.rank = 150
         self.max_pattern_length = 100
         self.input_pattern = '[^. \t0-9]\.\w*'
         self.is_debug_enabled = True
