@@ -41,8 +41,12 @@ def init():
     # Use PID as the file name
     pid = vim.funcs.getpid()
     addr = os.getenv("NVIM_LISTEN_ADDRESS")
+    version = vim.vars['comrade_version']
+    cwd = os.getcwd()
     with open(os.path.join(CONFIG_DIR, f"{pid}"), "w") as pid_file:
-        pid_file.write(addr)
+        pid_file.write(addr + "\n")
+        pid_file.write(version + "\n")
+        pid_file.write(cwd)
 
 clean_up()
 init()

@@ -8,20 +8,20 @@ function g:ComradeRequestComplete(buf, param)
             let result = call("rpcrequest", [s:buf_channel_map[a:buf], "comrade_complete", a:param])
             return result
         catch /./ " The channel has be probably closed
-            echo "Failed to send completion request to IntelliJ instance. " . v:exception
+            echom "Failed to send completion request to JetBrains instance. " . v:exception
             call remove(s:buf_channel_map, a:buf)
         endtry
     endif
     return []
 endfunction
 
-" Called from the IntelliJ to register it with this nvim.
-function g:ComradeRegisterIntelliJ(channel)
-    let s:intellij_channels[a:channel] = a:channel
-    echo 'ComradeNeovim connected. ID: ' . a:channel
+" Called from the JetBrains to register it with this nvim.
+function g:ComradeRegisterJetBrains(channel)
+    let s:jetbrain_channels[a:channel] = a:channel
+    echom 'ComradeNeovim connected. ID: ' . a:channel
 endfunction
 
-" Called by IntelliJ to register the buffer with the calling channel.
+" Called by JetBrains to register the buffer with the calling channel.
 function g:ComradeRegisterBuffer(buf, channel)
     let s:buf_channel_map[a:buf] = a:channel
 endfunction
@@ -34,18 +34,18 @@ function s:ComradeUnregisterCurrentBuffer()
     endif
 endfunction
 
-" To notify the IntelliJ that nvim switches to a different buffer.
+" To notify the JetBrains that nvim switches to a different buffer.
 function s:NotifyNewBuffer()
     let l:bufId = nvim_get_current_buf()
     let l:bufPath = expand('%:p')
 
     if (filereadable(l:bufPath))
-        for channel in values(s:intellij_channels)
+        for channel in values(s:jetbrain_channels)
             try
                 call call("rpcnotify", [channel, "comrade_buf_enter", {"id" : l:bufId, "path" : l:bufPath}])
             catch /./
-                echo "Failed to send new buffer notification request to IntelliJ instance " . channel . "." . v:exception
-                call remove(s:intellij_channels, channel)
+                echom "Failed to send new buffer notification request to JetBrains instance " . channel . "." . v:exception
+                call remove(s:jetbrain_channels, channel)
             endtry
         endfor
     endif
@@ -53,13 +53,18 @@ endfunction
 
 if !exists("comrade_loaded")
     let comrade_loaded = 1
+    let g:comrade_major_version = 0
+    let g:comrade_minor_version = 1
+    let g:comrade_patch_version = 0
+    let g:comrade_version = "" . g:comrade_major_version . "." . g:comrade_minor_version . "." . g:comrade_patch_version
+
     let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
     let s:init_path = s:path . "/init.py"
-    " buf_id to channel_id map. The last registered IntelliJ channel will
+    " buf_id to channel_id map. The last registered JetBrains channel will
     " overwrite the existing one.
     let s:buf_channel_map = {}
-    " All the IntelliJ channels.
-    let s:intellij_channels = {}
+    " All the JetBrains channels.
+    let s:jetbrain_channels = {}
     exe "py3file" s:init_path
 
     autocmd BufEnter * call s:NotifyNewBuffer()
