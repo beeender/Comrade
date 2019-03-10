@@ -7,8 +7,8 @@ function g:ComradeRequestComplete(buf, param)
         try
             let result = call('rpcrequest', [s:buf_channel_map[a:buf], 'comrade_complete', a:param])
             return result
-        catch /./ " The channel has be probably closed
-            echom 'Failed to send completion request to JetBrains instance. ' . v:exception
+        catch /./ " The channel has been probably closed
+            call comrade#util#TruncatedEcho('Failed to send completion request to JetBrains instance. \n' . v:exception)
             call remove(s:buf_channel_map, a:buf)
         endtry
     endif
@@ -18,7 +18,7 @@ endfunction
 " Called from the JetBrains to register it with this nvim.
 function g:ComradeRegisterJetBrains(channel)
     let s:jetbrain_channels[a:channel] = a:channel
-    echom 'ComradeNeovim connected. ID: ' . a:channel
+    call comrade#util#TruncatedEcho('ComradeNeovim connected. ID: ' . a:channel)
 endfunction
 
 " Called by JetBrains to register the buffer with the calling channel.
@@ -44,7 +44,7 @@ function s:NotifyNewBuffer()
             try
                 call call('rpcnotify', [channel, 'comrade_buf_enter', {'id' : l:bufId, 'path' : l:bufPath}])
             catch /./
-                echom 'Failed to send new buffer notification request to JetBrains instance ' . channel . '.' . v:exception
+                call comrade#util#TruncatedEcho('Failed to send new buffer notification request to JetBrains instance ' . channel . '.\n' . v:exception)
                 call remove(s:jetbrain_channels, channel)
             endtry
         endfor
