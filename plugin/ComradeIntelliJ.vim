@@ -5,10 +5,10 @@ call deoplete#enable()
 function g:ComradeRequestComplete(buf, param)
     if has_key(s:buf_channel_map, a:buf)
         try
-            let result = call("rpcrequest", [s:buf_channel_map[a:buf], "comrade_complete", a:param])
+            let result = call('rpcrequest', [s:buf_channel_map[a:buf], 'comrade_complete', a:param])
             return result
         catch /./ " The channel has be probably closed
-            echom "Failed to send completion request to JetBrains instance. " . v:exception
+            echom 'Failed to send completion request to JetBrains instance. ' . v:exception
             call remove(s:buf_channel_map, a:buf)
         endtry
     endif
@@ -42,30 +42,30 @@ function s:NotifyNewBuffer()
     if (filereadable(l:bufPath))
         for channel in values(s:jetbrain_channels)
             try
-                call call("rpcnotify", [channel, "comrade_buf_enter", {"id" : l:bufId, "path" : l:bufPath}])
+                call call('rpcnotify', [channel, 'comrade_buf_enter', {'id' : l:bufId, 'path' : l:bufPath}])
             catch /./
-                echom "Failed to send new buffer notification request to JetBrains instance " . channel . "." . v:exception
+                echom 'Failed to send new buffer notification request to JetBrains instance ' . channel . '.' . v:exception
                 call remove(s:jetbrain_channels, channel)
             endtry
         endfor
     endif
 endfunction
 
-if !exists("comrade_loaded")
+if !exists('comrade_loaded')
     let comrade_loaded = 1
     let g:comrade_major_version = 0
     let g:comrade_minor_version = 1
     let g:comrade_patch_version = 0
-    let g:comrade_version = "" . g:comrade_major_version . "." . g:comrade_minor_version . "." . g:comrade_patch_version
+    let g:comrade_version = '' . g:comrade_major_version . '.' . g:comrade_minor_version . '.' . g:comrade_patch_version
 
     let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-    let s:init_path = s:path . "/init.py"
+    let s:init_path = s:path . '/init.py'
     " buf_id to channel_id map. The last registered JetBrains channel will
     " overwrite the existing one.
     let s:buf_channel_map = {}
     " All the JetBrains channels.
     let s:jetbrain_channels = {}
-    exe "py3file" s:init_path
+    exe 'py3file' s:init_path
 
     autocmd BufEnter * call s:NotifyNewBuffer()
     autocmd BufDelete * call s:ComradeUnregisterCurrentBuffer()
