@@ -5,15 +5,17 @@ from pathlib import Path
 
 CONFIG_DIR = os.path.join(Path.home(), ".ComradeNeovim")
 
+
 def pid_exists(pid):
     try:
         os.kill(pid, 0)
-    except ProcessLookupError: # errno.ESRCH
-        return False # No such process
-    except PermissionError: # errno.EPERM
-        return True # Operation not permitted (i.e., process exists)
+    except ProcessLookupError:  # errno.ESRCH
+        return False  # No such process
+    except PermissionError:  # errno.EPERM
+        return True  # Operation not permitted (i.e., process exists)
     else:
-        return True # no error, we can send a signal to the process
+        return True  # no error, we can send a signal to the process
+
 
 def clean_up():
     if not os.path.isdir(CONFIG_DIR):
@@ -24,14 +26,16 @@ def clean_up():
             pid = int(filename)
         except ValueError:
             continue
-        if pid < 0: continue
+        if pid < 0:
+            continue
 
         # Remove non existing config files
         if not pid_exists(pid):
             try:
                 os.remove(os.path.join(CONFIG_DIR, filename))
-            except:
+            except Exception:
                 continue
+
 
 def init():
     # Create the config dir
@@ -47,6 +51,7 @@ def init():
         pid_file.write(addr + "\n")
         pid_file.write(version + "\n")
         pid_file.write(cwd)
+
 
 clean_up()
 init()
