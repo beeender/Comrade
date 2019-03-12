@@ -1,10 +1,11 @@
 scriptencoding utf8
-" Most functions Copied from ale.vim
+" Most functions were copied from ale.vim
 
 " These variables dictate what signs are used to indicate errors and warnings.
 let g:cde_sign_error = get(g:, 'cde_sign_error', '>>')
 let g:cde_sign_warning = get(g:, 'cde_sign_warning', '--')
-let g:cde_sign_info = get(g:, 'cde_sign_info', g:cde_sign_warning)
+let g:cde_sign_weak_warning = get(g:, 'cde_sign_warning', '-')
+let g:cde_sign_info = get(g:, 'cde_sign_info', '~')
 
 if !hlexists('CDEErrorSign')
     highlight link CDEErrorSign error
@@ -12,6 +13,10 @@ endif
 
 if !hlexists('CDEWarningSign')
     highlight link CDEWarningSign todo
+endif
+
+if !hlexists('CDEWeakWarningSign')
+    highlight link CDEWeakWarningSign CDEWarningSign
 endif
 
 if !hlexists('CDEInfoSign')
@@ -27,6 +32,8 @@ execute 'sign define CDEErrorSign text=' . g:cde_sign_error
 \   . ' texthl=CDEErrorSign linehl=CDEErrorLine'
 execute 'sign define CDEWarningSign text=' . g:cde_sign_warning
 \   . ' texthl=CDEWarningSign linehl=CDEWarningLine'
+execute 'sign define CDEWeakWarningSign text=' . g:cde_sign_weak_warning
+\   . ' texthl=CDEWarningSign linehl=CDEWarningLine'
 execute 'sign define CDEInfoSign text=' . g:cde_sign_info
 \   . ' texthl=CDEInfoSign linehl=CDEInfoLine'
 sign define CDEDummySign
@@ -36,8 +43,12 @@ function! s:GetSignName(severity)
         return 'CDEErrorSign'
     endif
 
-    if a:severity >= 200
+    if a:severity >= 300
         return 'CDEWarningSign'
+    endif
+
+    if a:severity >= 200
+        return 'CDEWeakWarningSign'
     endif
 
     return 'CDEInfoSign'
