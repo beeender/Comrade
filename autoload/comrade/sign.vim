@@ -136,17 +136,16 @@ function! comrade#sign#SetSigns(buffer, insights) abort
     let line = -1
     for l:insight_item in a:insights
         " Insights should be sorted by lines and severities
-        if line != l:insight_item['s_line']
-            let line = l:insight_item['s_line']
+        if line != l:insight_item['s_line'] + 1
+            let line = l:insight_item['s_line'] + 1
             let l:sign_map[l:insight_item['id']] = {
                         \ 'severity' : l:insight_item['severity'],
-                        \ 'line' : l:insight_item['s_line'],
+                        \ 'line' : line,
                         \ 'sign_name' : s:GetSignName(l:insight_item['severity'])}
         endif
     endfor
 
     let l:command_list = s:GenerateCommands(a:buffer, l:sign_map)
-    let g:test_list = l:command_list
     for l:command in l:command_list
         silent! execute l:command
     endfor

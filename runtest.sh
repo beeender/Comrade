@@ -1,6 +1,11 @@
 #!/bin/bash
-
 set -e
+
+if [ -z "$1" ]; then
+    TEST_CASE="test/*"
+else
+    TEST_CASE=$1
+fi
 
 nvim -Nu <(cat << EOF
 filetype off
