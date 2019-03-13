@@ -30,7 +30,7 @@ class Source(Base):
             "row" : row,
             "col" : col,
             "new_request" : not context["is_async"]};
-        results = self.vim.call("ComradeRequestComplete", buf_id, ret)
+        results = self.vim.call("comrade#RequestCompletion", buf_id, ret)
 
         if results:
             context["is_async"] = not results["is_finished"]

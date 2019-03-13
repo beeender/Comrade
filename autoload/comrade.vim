@@ -12,3 +12,17 @@ function! comrade#SetInsights(buf, insight_map)
     call comrade#sign#SetSigns(a:buf)
     call comrade#highlight#SetHighlights(a:buf)
 endfunction
+
+" Called by python when deoplete wants do completion.
+function! comrade#RequestCompletion(buf, param)
+    if comrade#bvar#has(a:buf, 'channel')
+        try
+            let result = call('rpcrequest', [comrade#bvar#get(a:buf, 'channel'), 'comrade_complete', a:param])
+            return result
+        catch /./ " The channel has been probably closed
+            call comrade#util#TruncatedEcho('Failed to send completion request to JetBrains instance. \n' . v:exception)
+            call comrade#bvar#remove(a:buf, 'channel')
+        endtry
+    endif
+    return []
+endfunction
