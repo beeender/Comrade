@@ -57,37 +57,34 @@ function! s:SetHighlight(buffer, insight)
     return l:id
 endfunction
 
-function! comrade#highlight#SetHighlights(buffer, loc_list) abort
-    try
-        let l:highlight_ids_to_remove = nvim_buf_get_var(a:buffer, 'comrade_highlight_ids')
-    catch /./
+function! comrade#highlight#SetHighlights(buffer) abort
+    let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
+    if empty(l:insight_map)
+        let l:insight_map = {}
+    endif
+    let l:highlight_ids_to_remove = getbufvar(a:buffer, 'comrade_highlight_ids')
+    if empty(l:highlight_ids_to_remove)
         let l:highlight_ids_to_remove = {}
-    endtry
+    endif
 
     let l:highlight_ids = {}
     let l:new_highlight_indices  = []
 
-    let l:idx = 0
-    for l:insight in a:loc_list
-        let l:id = l:insight['id']
-        if has_key(l:highlight_ids_to_remove, l:id)
-            call remove(l:highlight_ids_to_remove, l:id)
-            let l:highlight_ids[l:id] = ''
-        else
-            let l:new_highlight_indices = add(l:new_highlight_indices, idx)
-        endif
-        let l:idx = l:idx + 1
+    for l:line in keys(l:insight_map)
+        for l:insight in l:insight_map[l:line]
+            let l:id = l:insight['id']
+            if has_key(l:highlight_ids_to_remove, l:id)
+                call remove(l:highlight_ids_to_remove, l:id)
+                let l:highlight_ids[l:id] = ''
+            else
+                let l:highlight_ids[s:SetHighlight(a:buffer, l:insight)] = ''
+            endif
+        endfor
     endfor
 
     for l:id_to_remove in keys(l:highlight_ids_to_remove)
         call nvim_buf_clear_namespace(a:buffer, str2nr(l:id_to_remove), 0, -1)
     endfor
 
-    for l:idx in l:new_highlight_indices
-        let l:insight = a:loc_list[l:idx]
-        let l:id = l:insight['id']
-        let l:highlight_ids[s:SetHighlight(a:buffer, l:insight)] = ''
-    endfor
-
-    call nvim_buf_set_var(a:buffer, 'comrade_highlight_ids', l:highlight_ids)
+    call setbufvar(a:buffer, 'comrade_highlight_ids', l:highlight_ids)
 endfunction

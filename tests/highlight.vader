@@ -9,30 +9,34 @@ After:
 
 
 Execute(""):
-  let insights = [
-    \ {'id' : 11, 's_line' : 1, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400},
-  \ ]
+  let insights = {
+    \ 1 : [{'id' : 11, 's_line' : 1, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400}],
+  \}
   let buffer = bufnr('%')
-  call comrade#highlight#SetHighlights(buffer, insights)
-  let highlight_ids = nvim_buf_get_var(buffer, 'comrade_highlight_ids')
+  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#highlight#SetHighlights(buffer)
+  let highlight_ids = getbufvar(buffer, 'comrade_highlight_ids')
   AssertEqual {'11' : ''}, highlight_ids
 
-  let insights = [
-    \ {'id' : 11, 's_line' : 1, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400},
-    \ {'id' : 22, 's_line' : 2, 'e_line' : 2, 's_col' : 0, 'e_col' : 1, 'severity' : 400},
-  \ ]
-  call comrade#highlight#SetHighlights(buffer, insights)
-  let highlight_ids = nvim_buf_get_var(buffer, 'comrade_highlight_ids')
+  let insights = {
+    \ 1 : [{'id' : 11, 's_line' : 1, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400}],
+    \ 2 : [{'id' : 22, 's_line' : 2, 'e_line' : 2, 's_col' : 0, 'e_col' : 1, 'severity' : 400}]
+  \}
+  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#highlight#SetHighlights(buffer)
+  let highlight_ids = getbufvar(buffer, 'comrade_highlight_ids')
   AssertEqual {'11' : '', '22' : ''}, highlight_ids
 
-  let insights = [
-    \ {'id' : 22, 's_line' : 2, 'e_line' : 2, 's_col' : 0, 'e_col' : 1, 'severity' : 400},
-  \ ]
-  call comrade#highlight#SetHighlights(buffer, insights)
-  let highlight_ids = nvim_buf_get_var(buffer, 'comrade_highlight_ids')
+  let insights = {
+    \ 2 : [{'id' : 22, 's_line' : 2, 'e_line' : 2, 's_col' : 0, 'e_col' : 1, 'severity' : 400}],
+  \}
+  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#highlight#SetHighlights(buffer)
+  let highlight_ids = getbufvar(buffer, 'comrade_highlight_ids')
   AssertEqual {'22' : ''}, highlight_ids
 
-  let insights = [ ]
-  call comrade#highlight#SetHighlights(buffer, insights)
-  let highlight_ids = nvim_buf_get_var(buffer, 'comrade_highlight_ids')
+  let insights = {}
+  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#highlight#SetHighlights(buffer)
+  let highlight_ids = getbufvar(buffer, 'comrade_highlight_ids')
   AssertEqual {}, highlight_ids

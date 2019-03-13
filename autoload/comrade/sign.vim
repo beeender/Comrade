@@ -131,18 +131,25 @@ function! s:GenerateCommands(buffer, sign_map) abort
     return l:list
 endfunction
 
-function! comrade#sign#SetSigns(buffer, insights) abort
+function! comrade#sign#SetSigns(buffer) abort
+    let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
+    if empty(l:insight_map)
+        return
+    endif
+
     let l:sign_map = {}
-    let line = -1
-    for l:insight_item in a:insights
-        " Insights should be sorted by lines and severities
-        if line != l:insight_item['s_line'] + 1
-            let line = l:insight_item['s_line'] + 1
-            let l:sign_map[l:insight_item['id']] = {
-                        \ 'severity' : l:insight_item['severity'],
-                        \ 'line' : line,
-                        \ 'sign_name' : s:GetSignName(l:insight_item['severity'])}
+    for l:line in keys(l:insight_map)
+        let l:insight_list = l:insight_map[l:line]
+        if (empty(l:insight_list))
+            continue
         endif
+
+        let l:insight_item = l:insight_list[0]
+        " Insights should be sorted by severities
+        let l:sign_map[l:insight_item['id']] = {
+                    \ 'severity' : l:insight_item['severity'],
+                    \ 'line' : line + 1,
+                    \ 'sign_name' : s:GetSignName(l:insight_item['severity'])}
     endfor
 
     let l:command_list = s:GenerateCommands(a:buffer, l:sign_map)
