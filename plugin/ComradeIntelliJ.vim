@@ -69,5 +69,6 @@ if !exists('comrade_loaded')
 
     autocmd BufEnter * call s:NotifyNewBuffer()
     autocmd BufDelete * call s:ComradeUnregisterCurrentBuffer()
+    call comrade#events#Init()
 endif
 
