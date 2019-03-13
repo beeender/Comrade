@@ -26,12 +26,13 @@ After:
   delfunction CollectSigns
 
 Execute(""):
+  let buffer = bufnr("%")
+
   let insights = {
     \ 0 : [{'id' : 11, 's_line' : 0, 'severity' : 400}],
     \ 2 : [{'id' : 3, 's_line' : 2, 'severity' : 300}]
   \}
-  let buffer = bufnr("%")
-  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [['3', '3', 'CDEWarningSign'], ['1', '11', 'CDEErrorSign']], CollectSigns()
 
@@ -39,7 +40,7 @@ Execute(""):
     \ 1 : [{'id' : 22, 's_line' : 1, 'severity' : 400}],
     \ 2 : [{'id' : 3, 's_line' : 2, 'severity' : 300}]
   \}
-  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [['3', '3', 'CDEWarningSign'], ['2', '22', 'CDEErrorSign']], CollectSigns()
 
@@ -47,11 +48,11 @@ Execute(""):
     \ 1 : [{'id' : 22, 's_line' : 1, 'severity' : 400}],
     \ 2 : [{'id' : 33, 's_line' : 2, 'severity' : 400}]
   \}
-  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [['2', '22', 'CDEErrorSign'], ['3', '33', 'CDEErrorSign']], CollectSigns()
 
   let insights = {}
-  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [], CollectSigns()

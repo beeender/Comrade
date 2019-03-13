@@ -40,7 +40,7 @@ function! comrade#cursor#EchoCursorWarningWithDelay() abort
 endfunction
 
 function! s:FindInsightAtCursor(buffer)
-    let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
+    let l:insight_map = comrade#bvar#get(a:buffer, 'insight_map')
     if empty(l:insight_map)
         return 0
     endif
@@ -77,12 +77,12 @@ function! comrade#cursor#EchoCursorWarning(...) abort
     if !empty(l:insight)
         let l:desc = l:insight['desc']
         call comrade#util#TruncatedEcho(l:desc)
-        call setbufvar(buffer, 'comrade_echoed', 1)
-    elseif getbufvar(buffer, 'comrade_echoed')
+        call comrade#bvar#set(buffer, 'echoed', 1)
+    elseif comrade#bvar#get(buffer, 'echoed')
         " We'll only clear the echoed message when moving off errors once,
         " so we don't continually clear the echo line.
         execute 'echo'
-        call setbufvar(buffer, 'comrade_echoed', 0)
+        call comrade#bvar#set(buffer, 'echoed', 0)
     endif
 
 endfunction

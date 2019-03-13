@@ -58,11 +58,11 @@ function! s:SetHighlight(buffer, insight)
 endfunction
 
 function! comrade#highlight#SetHighlights(buffer) abort
-    let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
+    let l:insight_map = comrade#bvar#get(a:buffer, 'insight_map')
     if empty(l:insight_map)
         let l:insight_map = {}
     endif
-    let l:highlight_ids_to_remove = getbufvar(a:buffer, 'comrade_highlight_ids')
+    let l:highlight_ids_to_remove = comrade#bvar#get(a:buffer, 'highlight_ids')
     if empty(l:highlight_ids_to_remove)
         let l:highlight_ids_to_remove = {}
     endif
@@ -86,5 +86,5 @@ function! comrade#highlight#SetHighlights(buffer) abort
         call nvim_buf_clear_namespace(a:buffer, str2nr(l:id_to_remove), 0, -1)
     endfor
 
-    call setbufvar(a:buffer, 'comrade_highlight_ids', l:highlight_ids)
+    call comrade#bvar#set(a:buffer, 'highlight_ids', l:highlight_ids)
 endfunction

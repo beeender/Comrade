@@ -132,7 +132,7 @@ function! s:GenerateCommands(buffer, sign_map) abort
 endfunction
 
 function! comrade#sign#SetSigns(buffer) abort
-    let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
+    let l:insight_map = comrade#bvar#get(a:buffer, 'insight_map')
     if empty(l:insight_map)
         let l:insight_map = {}
     endif

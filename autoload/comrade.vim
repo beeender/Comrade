@@ -8,7 +8,7 @@
 " }
 " Line number is 0 based.
 function! comrade#SetInsights(buf, insight_map)
-    call setbufvar(a:buf, 'comrade_insight_map', a:insight_map)
+    call comrade#bvar#set(a:buf, 'insight_map', a:insight_map)
     call comrade#sign#SetSigns(a:buf)
     call comrade#highlight#SetHighlights(a:buf)
 endfunction
