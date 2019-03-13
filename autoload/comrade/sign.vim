@@ -134,7 +134,7 @@ endfunction
 function! comrade#sign#SetSigns(buffer) abort
     let l:insight_map = getbufvar(a:buffer, 'comrade_insight_map')
     if empty(l:insight_map)
-        return
+        let l:insight_map = {}
     endif
 
     let l:sign_map = {}

@@ -50,3 +50,8 @@ Execute(""):
   call setbufvar(buffer, 'comrade_insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [['2', '22', 'CDEErrorSign'], ['3', '33', 'CDEErrorSign']], CollectSigns()
+
+  let insights = {}
+  call setbufvar(buffer, 'comrade_insight_map', insights)
+  call comrade#sign#SetSigns(buffer)
+  AssertEqual [], CollectSigns()
