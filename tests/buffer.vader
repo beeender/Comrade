@@ -6,8 +6,9 @@ Given buf1:
 Execute("Register buf1"):
   let buffer = bufnr('%')
 
+  let init_lines = ['a', 'b']
   call comrade#jetbrain#Register(42)
-  call comrade#buffer#Register(buffer, 42)
+  call comrade#buffer#Register(buffer, 42, init_lines)
 
   let list = comrade#jetbrain#Channels()
   Assert index(list, 42) != -1
@@ -16,6 +17,10 @@ Execute("Register buf1"):
   AssertEqual 'acwrite', btype
 
   AssertEqual 42, comrade#bvar#get(buffer, 'channel')
+
+  AssertEqual init_lines, nvim_buf_get_lines(buffer, 0, -1, v:true)
+
+  AssertThrows 0, getbufvar(buffer, '&modified')
 
   " Write current buffer
   AssertThrows execute("w")
@@ -27,5 +32,3 @@ Execute("Register buf1"):
 
   let btype = getbufvar(buffer, '&buftype')
   AssertEqual '', btype
-
-  execute("w")

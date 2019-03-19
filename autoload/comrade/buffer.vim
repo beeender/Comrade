@@ -1,5 +1,8 @@
 " Called by JetBrains to register the buffer with the calling channel.
-function! comrade#buffer#Register(buf, channel) abort
+" If lines is not empty, the content of buffer will be set. This means
+" whenever JetBrains try to register the buffer, the nvim buffer's content
+" will be synced with JetBrains' corresponding file content.
+function! comrade#buffer#Register(buf, channel, lines) abort
     call comrade#bvar#set(a:buf, 'channel', a:channel)
     call setbufvar(a:buf, '&buftype', 'acwrite')
     augroup ComradeBufEvents
@@ -8,6 +11,13 @@ function! comrade#buffer#Register(buf, channel) abort
         execute('autocmd BufWriteCmd <buffer=' . a:buf .
                     \ '> call s:WriteBuffer(' . a:buf. ')')
     augroup END
+
+    if !empty(a:lines)
+        call nvim_buf_set_lines(a:buf, 0, -1, v:true, a:lines)
+        " treat the buffer as an unmodified one since its content is the same
+        " with JetBrains' which has auto-save feature always enabled.
+        call setbufvar(a:buf, '&modified', 0)
+    endif
 endfunction
 
 " Unregister the given buffer
