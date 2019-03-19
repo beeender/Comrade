@@ -1,0 +1,31 @@
+Given buf1:
+  first line
+  2nd line
+  3rd line
+
+Execute("Register buf1"):
+  let buffer = bufnr('%')
+
+  call comrade#jetbrain#Register(42)
+  call comrade#buffer#Register(buffer, 42)
+
+  let list = comrade#jetbrain#Channels()
+  Assert index(list, 42) != -1
+
+  let btype = getbufvar(buffer, '&buftype')
+  AssertEqual 'acwrite', btype
+
+  AssertEqual 42, comrade#bvar#get(buffer, 'channel')
+
+  " Write current buffer
+  AssertThrows execute("w")
+
+  " buffer should be unregistered
+  " Since the JetBrain channel doesn't exist, the channel ID should be removed.
+  let list = comrade#jetbrain#Channels()
+  Assert index(list, 42) == -1
+
+  let btype = getbufvar(buffer, '&buftype')
+  AssertEqual '', btype
+
+  execute("w")
