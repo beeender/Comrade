@@ -7,7 +7,7 @@ else
     TEST_CASE=$1
 fi
 
-nvim -Nu <(cat << EOF
+glrnvim -Nu <(cat << EOF
 filetype off
 set rtp+=~/.config/nvim/plugged/deoplete.nvim
 set rtp+=~/.config/nvim/plugged/vader.vim
