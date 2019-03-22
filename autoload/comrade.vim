@@ -26,3 +26,17 @@ function! comrade#RequestCompletion(buf, param)
     endif
     return []
 endfunction
+
+function! comrade#RequestQuickFix(buf, insight, fix)
+    if comrade#bvar#has(a:buf, 'channel')
+        try
+            let result = call('rpcrequest', [comrade#bvar#get(a:buf, 'channel'), 'comrade_quick_fix',
+                        \ {'buf' : a:buf, 'insight' : a:insight, 'fix' : a:fix}])
+            return result
+        catch /./ " The channel has been probably closed
+            call comrade#util#TruncatedEcho('Failed to send completion request to JetBrains instance. \n' . v:exception)
+            call comrade#bvar#remove(a:buf, 'channel')
+        endtry
+    endif
+    return []
+endfunction

@@ -39,7 +39,7 @@ function! comrade#cursor#EchoCursorWarningWithDelay() abort
     endif
 endfunction
 
-function! s:FindInsightAtCursor(buffer)
+function! comrade#cursor#FindInsightAtCursor(buffer)
     let l:insight_map = comrade#bvar#get(a:buffer, 'insight_map')
     if empty(l:insight_map)
         return 0
@@ -72,7 +72,7 @@ function! comrade#cursor#EchoCursorWarning(...) abort
         return
     endif
 
-    let l:insight = s:FindInsightAtCursor(l:buffer)
+    let l:insight = comrade#cursor#FindInsightAtCursor(l:buffer)
 
     if !empty(l:insight)
         let l:desc = l:insight['desc']

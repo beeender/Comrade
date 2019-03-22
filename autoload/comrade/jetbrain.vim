@@ -12,7 +12,7 @@ endfunction
 function! comrade#jetbrain#Unregister(channel)
     if has_key(s:jetbrain_channels, a:channel)
         call remove(s:jetbrain_channels, a:channel)
-        call comrade#util#TruncatedEcho('Discoonected from ComradeNeovim. ID: ' . a:channel)
+        call comrade#util#TruncatedEcho('Disconnected from ComradeNeovim. ID: ' . a:channel)
     endif
 endfunction
 
