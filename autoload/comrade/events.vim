@@ -4,7 +4,7 @@ function! comrade#events#Init() abort
         autocmd!
 
         autocmd BufEnter * call comrade#buffer#Notify()
-        autocmd BufDelete * call comrade#buffer#UnregisterCurrent()
+        autocmd BufUnload * call comrade#buffer#UnregisterCurrent()
 
         autocmd CursorMoved,CursorHold * call comrade#cursor#EchoCursorWarningWithDelay()
         " Look for a warning to echo as soon as we leave Insert mode.

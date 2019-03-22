@@ -4,6 +4,8 @@ Given foobar:
   3rd line
 
 Before:
+  let buffer = bufnr('%')
+  call comrade#buffer#Register(buffer, 42, v:false)
   function! CollectSigns()
       redir => l:output
          silent exec 'sign place'
@@ -25,8 +27,8 @@ Before:
 After:
   delfunction CollectSigns
 
-Execute(""):
-  let buffer = bufnr("%")
+Execute("Add and remove signs"):
+  let buffer = bufnr('%')
 
   let insights = {
     \ 0 : [{'id' : 11, 's_line' : 0, 'severity' : 400}],
@@ -56,3 +58,18 @@ Execute(""):
   call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
   AssertEqual [], CollectSigns()
+
+Execute("Signs should be cleard after buf unregistered"):
+  let buffer = bufnr('%')
+
+  let insights = {
+    \ 0 : [{'id' : 11, 's_line' : 0, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400}],
+    \ 2 : [{'id' : 3, 's_line' : 2, 'e_line' : 2, 's_col' : 0, 'e_col' : 1, 'severity' : 300}],
+  \}
+  call comrade#SetInsights(42, buffer, insights)
+  call comrade#sign#SetSigns(buffer)
+  AssertEqual [['3', '3', 'CDEWarningSign'], ['1', '11', 'CDEErrorSign']], CollectSigns()
+
+  call comrade#buffer#Unregister(buffer)
+  Assert empty(CollectSigns())
+

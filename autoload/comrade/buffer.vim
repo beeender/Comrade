@@ -22,10 +22,15 @@ endfunction
 
 " Unregister the given buffer
 function! comrade#buffer#Unregister(buf) abort
-    if comrade#bvar#has(a:buf, 'channel')
-        call comrade#bvar#remove(a:buf, 'channel')
+    let l:has_channel = comrade#bvar#has(a:buf, 'channel')
+    call comrade#bvar#clear(a:buf)
+
+    if l:has_channel
         call setbufvar(a:buf, '&buftype', '')
         execute('autocmd! ComradeBufEvents * <buffer=' . a:buf . '>')
+
+        call comrade#sign#SetSigns(a:buf)
+        call comrade#highlight#SetHighlights(a:buf)
     endif
 endfunction
 

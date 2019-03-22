@@ -7,10 +7,13 @@
 "   ]
 " }
 " Line number is 0 based.
-function! comrade#SetInsights(buf, insight_map)
-    call comrade#bvar#set(a:buf, 'insight_map', a:insight_map)
-    call comrade#sign#SetSigns(a:buf)
-    call comrade#highlight#SetHighlights(a:buf)
+function! comrade#SetInsights(channel, buf, insight_map)
+    let l:channel = comrade#bvar#get(a:buf, 'channel')
+    if l:channel == a:channel
+        call comrade#bvar#set(a:buf, 'insight_map', a:insight_map)
+        call comrade#sign#SetSigns(a:buf)
+        call comrade#highlight#SetHighlights(a:buf)
+    endif
 endfunction
 
 " Called by python when deoplete wants do completion.

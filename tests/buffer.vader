@@ -1,9 +1,9 @@
-Given buf1:
+Given buf:
   first line
   2nd line
   3rd line
 
-Execute("Register buf1"):
+Execute("Register buffer with initial lines"):
   let buffer = bufnr('%')
 
   let init_lines = ['a', 'b']
@@ -11,20 +11,51 @@ Execute("Register buf1"):
 
   let btype = getbufvar(buffer, '&buftype')
   AssertEqual 'acwrite', btype
-
   AssertEqual 42, comrade#bvar#get(buffer, 'channel')
-
   AssertEqual init_lines, nvim_buf_get_lines(buffer, 0, -1, v:true)
-
-  AssertThrows 0, getbufvar(buffer, '&modified')
-
+  AssertEqual 0, getbufvar(buffer, '&modified')
+  Assert !comrade#jetbrain#IsChannelExisting(42)
   " Write current buffer
   AssertThrows execute("w")
 
-  " buffer should be unregistered
-  " Since the JetBrain channel doesn't exist, the channel ID should be removed.
-  let list = comrade#jetbrain#Channels()
-  Assert index(list, 42) == -1
-
   let btype = getbufvar(buffer, '&buftype')
   AssertEqual '', btype
+
+Given buf:
+  first line
+
+Execute("Register buffer without initial lines"):
+  let buffer = bufnr('%')
+
+  execute('w!')
+  AssertEqual 0, getbufvar(buffer, '&modified')
+
+  call comrade#buffer#Register(buffer, 42, v:false)
+
+  let btype = getbufvar(buffer, '&buftype')
+  AssertEqual 'acwrite', btype
+
+  AssertEqual 42, comrade#bvar#get(buffer, 'channel')
+  AssertEqual ['first line'], nvim_buf_get_lines(buffer, 0, -1, v:true)
+  AssertEqual 0, getbufvar(buffer, '&modified')
+
+Given buf:
+  first line
+
+Execute("Reload buffer, should be unregistered"):
+  let buffer = bufnr('%')
+
+  call comrade#buffer#Register(buffer, 42, v:false)
+  let map = comrade#bvar#all(buffer)
+  Assert !empty(map)
+
+  execute('e!')
+  Assert empty(map)
+
+Given buf:
+  new
+
+" This test doesn't really work. No idea how to create a new buffer in vader.
+Execute("Reload a new buffer, unregistered should be no problem"):
+  let buffer = bufnr('%')
+  call comrade#buffer#Unregister(buffer)
