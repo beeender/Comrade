@@ -7,11 +7,7 @@ Execute("Register buf1"):
   let buffer = bufnr('%')
 
   let init_lines = ['a', 'b']
-  call comrade#jetbrain#Register(42)
   call comrade#buffer#Register(buffer, 42, init_lines)
-
-  let list = comrade#jetbrain#Channels()
-  Assert index(list, 42) != -1
 
   let btype = getbufvar(buffer, '&buftype')
   AssertEqual 'acwrite', btype

@@ -40,13 +40,13 @@ function! comrade#buffer#Notify() abort
     let l:bufPath = expand('%:p')
 
     if (filereadable(l:bufPath))
-        for channel in comrade#jetbrain#Channels()
+        let l:channels = comrade#jetbrain#Channels()
+
+        for channel in l:channels
             try
                 call call('rpcnotify', [channel, 'comrade_buf_enter', {'id' : l:bufId, 'path' : l:bufPath}])
             catch /./
                 call comrade#util#TruncatedEcho('Failed to send new buffer notification to JetBrains instance ' . channel . '.\n' . v:exception)
-                call comrade#buffer#Unregister(l:bufId)
-                call comrade#jetbrain#Unregister(channel)
             endtry
         endfor
     endif
@@ -63,9 +63,14 @@ function! s:WriteBuffer(buffer)
         call call('rpcrequest', [l:channel, 'comrade_buf_write', {'id' : a:buffer}])
         call setbufvar(a:buffer, '&modified', 0)
     catch /./
-        call comrade#buffer#Unregister(a:buffer)
-        call comrade#jetbrain#Unregister(channel)
-        echoe 'The JetBrain has been disconnected thus please write the buffer again if you want to save it.'
+        if !comrade#jetbrain#IsChannelExisting(l:channel)
+            call comrade#buffer#Unregister(a:buffer)
+            echoe 'The JetBrain has been disconnected thus please write the buffer again if you want to save it.'
+        else
+            " The disconnecting takes a few seconds, user may have to write
+            " again to trigger the unregister.
+            echoe 'JetBrain failed to save file.' . v:exception
+        endif
     endtry
 
 endfunction

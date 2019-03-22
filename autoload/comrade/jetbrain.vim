@@ -1,22 +1,29 @@
 " Handle APIs interactions with JetBrains
 
-let s:jetbrain_channels = {}
-
-" Called by JetBrains to register with the channel id.
-function! comrade#jetbrain#Register(channel)
-    let s:jetbrain_channels[a:channel] = a:channel
-    call comrade#util#TruncatedEcho('Connected to ComradeNeovim . ID: ' . a:channel)
-endfunction
-
-" To unregister with a channel id.
-function! comrade#jetbrain#Unregister(channel)
-    if has_key(s:jetbrain_channels, a:channel)
-        call remove(s:jetbrain_channels, a:channel)
-        call comrade#util#TruncatedEcho('Disconnected from ComradeNeovim. ID: ' . a:channel)
-    endif
-endfunction
-
 " Return a list of registered JetBrains channel ids.
 function! comrade#jetbrain#Channels()
-    return values(s:jetbrain_channels)
+    let l:channels = nvim_list_chans()
+    let list = []
+    for l:channel in l:channels
+        if !has_key(l:channel, 'client')
+            continue
+        endif
+
+        let l:client = l:channel['client']
+        if has_key(l:client, 'name') && l:client['name'] ==# 'ComradeNeovim'
+            let list = add(list, l:channel['id'])
+        endif
+    endfor
+    return list
+endfunction
+
+" Return false if the given channel doesn't exist.
+function! comrade#jetbrain#IsChannelExisting(channel)
+    let l:channels = comrade#jetbrain#Channels()
+    for l:c in l:channels
+        if (l:c ==# a:channel)
+            return v:true
+        endif
+    endfor
+    return v:false
 endfunction
