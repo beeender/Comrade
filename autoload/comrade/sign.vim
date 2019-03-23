@@ -100,7 +100,7 @@ function! s:ParseSigns(line_list) abort
     return [l:is_dummy_sign_set, l:result]
 endfunction
 
-function! s:GenerateCommands(buffer, sign_map) abort
+function! s:Refresh(buffer, sign_map) abort
     let l:list = []
     let [l:is_dummy_sign_set, l:current_sign_list] =
                 \   s:FindCurrentSigns(a:buffer)
@@ -110,22 +110,14 @@ function! s:GenerateCommands(buffer, sign_map) abort
         if has_key(a:sign_map, l:sign_id) && a:sign_map[l:sign_id]['sign_name'] == l:sign[2]
             call remove(a:sign_map, l:sign_id)
         else
-            call add(l:list, 'sign unplace '
-                        \   . l:sign_id
-                        \   . ' buffer=' . a:buffer
-                        \)
+            silent! execute 'sign unplace ' . l:sign_id . ' buffer=' . a:buffer
         endif
     endfor
 
     for l:key in keys(a:sign_map)
         let l:line = a:sign_map[l:key]['line']
         let l:sign_name = a:sign_map[l:key]['sign_name']
-        call add(l:list, 'sign place '
-                    \   . (l:key)
-                    \   . ' line=' . l:line
-                    \   . ' name=' . l:sign_name
-                    \   . ' buffer=' . a:buffer
-                    \)
+        silent! execute 'sign place ' . l:key . ' line=' . l:line . ' name=' . l:sign_name . ' buffer=' . a:buffer
     endfor
 
     return l:list
@@ -138,9 +130,10 @@ function! comrade#sign#SetSigns(buffer) abort
     endif
 
     let l:sign_map = {}
+    let l:line_count = nvim_buf_line_count(a:buffer)
     for l:line in keys(l:insight_map)
         let l:insight_list = l:insight_map[l:line]
-        if (empty(l:insight_list))
+        if (empty(l:insight_list) || l:line >= l:line_count)
             continue
         endif
 
@@ -152,9 +145,15 @@ function! comrade#sign#SetSigns(buffer) abort
                     \ 'sign_name' : s:GetSignName(l:insight_item['severity'])}
     endfor
 
-    let l:command_list = s:GenerateCommands(a:buffer, l:sign_map)
-    for l:command in l:command_list
-        silent! execute l:command
-    endfor
+    call s:Refresh(a:buffer, l:sign_map)
 endfunction
 
+function! comrade#sign#Clear(buffer)
+    let [l:is_dummy_sign_set, l:current_sign_list] =
+                \   s:FindCurrentSigns(a:buffer)
+
+    for l:sign in l:current_sign_list
+        let l:sign_id = l:sign[1]
+        silent! execute 'sign unplace ' . l:sign_id . ' buffer=' . a:buffer
+    endfor
+endfunction

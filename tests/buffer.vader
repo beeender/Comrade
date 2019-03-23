@@ -59,3 +59,19 @@ Given buf:
 Execute("Reload a new buffer, unregistered should be no problem"):
   let buffer = bufnr('%')
   call comrade#buffer#Unregister(buffer)
+
+" Register should be a idempotent operation
+Execute("Register a registered buffer"):
+  let buffer = bufnr('%')
+
+  call comrade#buffer#Register(buffer, 42, v:false)
+  let insights = {
+    \ 0 : [{'id' : 11, 's_line' : 0, 'e_line' : 1, 's_col' : 0, 'e_col' : 1, 'severity' : 400}],
+  \}
+  call comrade#SetInsights(42, buffer, insights)
+  Assert !empty(comrade#bvar#get(buffer, 'insight_map'))
+
+  " Register again, the bvar should only have the channel left
+  call comrade#buffer#Register(buffer, 42, v:false)
+  AssertEqual {'channel' : 42}, comrade#bvar#all(buffer)
+

@@ -3,6 +3,7 @@
 " whenever JetBrains try to register the buffer, the nvim buffer's content
 " will be synced with JetBrains' corresponding file content.
 function! comrade#buffer#Register(buf, channel, lines) abort
+    call comrade#bvar#clear(a:buf)
     call comrade#bvar#set(a:buf, 'channel', a:channel)
     call setbufvar(a:buf, '&buftype', 'acwrite')
     augroup ComradeBufEvents
@@ -11,6 +12,9 @@ function! comrade#buffer#Register(buf, channel, lines) abort
         execute('autocmd BufWriteCmd <buffer=' . a:buf .
                     \ '> call s:WriteBuffer(' . a:buf. ')')
     augroup END
+
+    " Without this, vim might put all the old signs at the first line.
+    call comrade#sign#Clear(a:buf)
 
     if !empty(a:lines)
         call nvim_buf_set_lines(a:buf, 0, -1, v:true, a:lines)
