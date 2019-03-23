@@ -1,6 +1,3 @@
-call deoplete#enable()
-"call deoplete#enable_logging('DEBUG', 'deoplete.log')
-
 
 if !exists('comrade_loaded')
     let comrade_loaded = 1
