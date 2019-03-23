@@ -1,0 +1,26 @@
+dist: xenial
+language: python
+python:
+  - 3.6
+
+install:
+  - pip install neovim
+
+before_install:
+  - sudo add-apt-repository ppa:neovim-ppa/stable -y
+  - sudo apt-get update -q
+  - sudo apt-get install neovim -y
+
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
+  git clone https://github.com/Shougo/deoplete.nvim
+
+script: |
+  nvim -Nu <(cat << VIMRC
+  filetype off
+  set rtp+=vader.vim
+  set rtp+=.
+  set rtp+=after
+  filetype plugin indent on
+  syntax enable
+  VIMRC) -c 'Vader! tests/*' > /dev/null
