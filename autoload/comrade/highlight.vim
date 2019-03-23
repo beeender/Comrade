@@ -83,7 +83,10 @@ function! comrade#highlight#SetHighlights(buffer) abort
     endfor
 
     for l:id_to_remove in keys(l:highlight_ids_to_remove)
-        call nvim_buf_clear_namespace(a:buffer, str2nr(l:id_to_remove), 0, -1)
+        " TODO: Enable this when time arrives. nvim_buf_clear_namespace was
+        " introduced in 0.3.4
+        "call nvim_buf_clear_namespace(a:buffer, str2nr(l:id_to_remove), 0, -1)
+        call nvim_buf_clear_highlight(a:buffer, str2nr(l:id_to_remove), 0, -1)
     endfor
 
     call comrade#bvar#set(a:buffer, 'highlight_ids', l:highlight_ids)
