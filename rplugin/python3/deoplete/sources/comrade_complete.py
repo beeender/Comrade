@@ -8,11 +8,15 @@ class Source(Base):
         self.name = 'Comrade'
         self.mark = '[Cde]'
         self.filetypes = []
-        self.rank = 200
+        self.rank = 500
         self.max_pattern_length = 100
         self.min_pattern_length = 1
-        # self.input_pattern = '^\\s*\\S+'
-        self.input_pattern = '[^. \t0-9]\\.\\w*'
+        # Just put all possible patterns here. Category them when we have a
+        # performance issue.
+        self.input_pattern = (r'(\.)\w*|'
+                              r'(:)\w*|'
+                              r'(::)\w*|'
+                              r'(->)\w*|')
         self.is_debug_enabled = True
 
     def gather_candidates(self, context):
