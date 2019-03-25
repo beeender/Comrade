@@ -3,6 +3,7 @@
 " whenever JetBrains try to register the buffer, the nvim buffer's content
 " will be synced with JetBrains' corresponding file content.
 function! comrade#buffer#Register(buf, channel, lines) abort
+    call comrade#key#Register(a:buf)
     call comrade#bvar#clear(a:buf)
     call comrade#bvar#set(a:buf, 'channel', a:channel)
     call setbufvar(a:buf, '&buftype', 'acwrite')
@@ -26,6 +27,7 @@ endfunction
 
 " Unregister the given buffer
 function! comrade#buffer#Unregister(buf) abort
+    call comrade#key#Unregister(a:buf)
     let l:has_channel = comrade#bvar#has(a:buf, 'channel')
     call comrade#bvar#clear(a:buf)
 
