@@ -24,6 +24,9 @@ Execute("Register buffer with initial lines"):
 Given buf:
   first line
 
+After:
+  call delete(bufname('%'))
+
 Execute("Register buffer without initial lines"):
   let buffer = bufnr('%')
 
