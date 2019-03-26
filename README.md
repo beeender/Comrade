@@ -1,6 +1,6 @@
 # Comrade [![Build Status](https://travis-ci.com/beeender/Comrade.svg?token=Jk7Uqc68DwnrEsRwJDp7&branch=master)](https://travis-ci.com/beeender/Comrade)
 
-Brings JetBrains/IntelliJ IDEs magic to Neovim with minimal setup.
+**Brings JetBrains/IntelliJ IDEs magic to Neovim with minimal setup.**
 
 The whole idea behind this is creating a neovim client as an IntelliJ/JetBrains IDE plugin,
 maintaining bi-directly synchronization of editing buffers between IDE and neovim, then
@@ -9,14 +9,18 @@ request the IDE for the code assistant information from neovim.
 [ComradeNeovim](https://github.com/beeender/ComradeNeovim) is required to be installed in the
 IDE to make this work.
 
+- [Screenshots](#Screenshots)
 - [Install](#install)
 - [Usage](#usage)
 - [Mapped Keys](#mapped-keys)
 - [Supported IDEs](#supported-ides)
 - [Supported Languages](#supported-languages)
-- [Screenshots](#Screenshots)
 
-# Install
+## Screenshots
+
+ ![Flutter in Android Studio](https://github.com/beeender/ComradeNeovim/blob/master/screenshot/android_studio_flutter.gif)
+ 
+## Install
 
 **Note: Comrade requires Neovim (0.3.2+) with Python3.6.1+enabled.**
 **Note: JetBrains IDEs (2018.3+) is required.**
@@ -32,7 +36,7 @@ For vim-plug
 Plug 'beeender/Comrade'
 ```
 
-# Usage
+## Usage
 
 1. Keep the project opened in the JetBrains IDE which contains the source file you want to
    edit in neovim.
@@ -49,13 +53,13 @@ other in a short time.
 
 Also, the file write action (`:w`) will be taken over by the IDE to avoid content conflicts.
 
-## Completion
+### Completion
 
 If the [deoplete](https://github.com/Shougo/deoplete.nvim) is installed and enabled, the
 completion should work out of box. It should support any types of languages which the IDE
 supports.
 
-## Linting
+### Linting
 
 Comrade should be able to do linting on the fly just like what JetBrains IDE
 is doing. You don't have to save the file to get the linting result. The linting
@@ -66,7 +70,7 @@ The linting items are controlled by the IDE's inspection settings. Changing
 inspection settings in the IDE side will result linting change in the neovim
 side accordingly.
 
-## Fixer
+### Fixer
 
 When a coding problem has been detected, Comrade can call into the
 IDE's quick fix system to make a quick fix of it. To use this, just move the
@@ -80,7 +84,7 @@ there still could be some issues with fixers like the neovim lost the focus.
 Please see [this issue](https://github.com/beeender/Comrade/issues/1).
 
 
-# Mapped Keys
+## Mapped Keys
 
 - Quick fix at the current cursor
 
@@ -94,7 +98,7 @@ To change the key map:
 let g:comrade_key_fix = <your_mapped_keys>
 ```
 
-# Supported IDEs
+## Supported IDEs
 
 In theory, this plugin should support all JetBrains IDEs after version `2018.3`. Since not
 all of them are free, only part of them have been verified by us.
@@ -114,7 +118,7 @@ Please let us know or send a PR to change the IDE support status below:
 | WebStorm | unknown | |
 
 
-# Supported Languages
+## Supported Languages
 
 Same as the IDE support, this plugin should support all languages which your JetBrains IDE
 support.
@@ -137,8 +141,4 @@ Please let us know or send a PR to change the language support status below:
 | Go | unknown | |
 | Ruby | unknown | |
 
-
-## SCREENSHOTS
-
- ![Flutter in Android Studio](https://github.com/beeender/ComradeNeovim/blob/master/screenshot/android_studio_flutter.gif)
 
