@@ -1,6 +1,5 @@
-# Comrade
+# Comrade [![Build Status](https://travis-ci.com/beeender/Comrade.svg?token=Jk7Uqc68DwnrEsRwJDp7&branch=master)](https://travis-ci.com/beeender/Comrade)
 
-[![Build Status](https://travis-ci.com/beeender/Comrade.svg?token=Jk7Uqc68DwnrEsRwJDp7&branch=master)](https://travis-ci.com/beeender/Comrade)
 Brings JetBrains/IntelliJ IDEs magic to Neovim with minimal setup.
 
 The whole idea behind this is creating a neovim client as an IntelliJ/JetBrains IDE plugin,
@@ -102,7 +101,7 @@ all of them are free, only part of them have been verified by us.
 Please let us know or send a PR to change the IDE support status below:
 
 | IDE | Status | Remarks |
-| --- |:------:| -------:|
+| --- |:------:|:-------:|
 | Android Studio | verified | |
 | AppCode | unknown | |
 | CLion | unknown | |
@@ -123,7 +122,7 @@ support.
 Please let us know or send a PR to change the language support status below:
 
 | Language | Status | Remarks |
-| -------- |:------:| -------:|
+| -------- |:------:|:-------:|
 | C | unknown | |
 | C# | unknown | |
 | C++ | unknown | |
