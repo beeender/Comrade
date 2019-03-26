@@ -1,0 +1,106 @@
+"comrade.txt" Brings JetBrains/IntelliJ IDEs magic to Neovim.
+
+Version: 0.1.0
+Author: beeender <chenmulong at gmail.com> License: GPLv3
+
+CONTENTS *comrade-contents*
+
+
+Introduction             |comrade-introduction|
+Install                  |comrade-install|
+Usage                    |comrade-usage|
+Features                 |comrade-features|
+  Completion             |comrade-completion|
+  Linting                |comrade-linting|
+  Fixer                  |comrade-fixer|
+Commands & Keybinds      |comrade-commands-keybinds|
+
+========
+INTRODUCTION        *comrade-introduction*
+
+*comrade* includes a JetBrains/IntelliJ IDE side plugin and a Neovim plugin. Both
+of them work together to bring JetBrains IDE magic to Neovim with minimal
+setup.
+
+========
+INSTALL     *comrade-install*
+
+*comrade* requires ComradeNeovim to be installed on your JetBrains IDE side to
+work. Please search for 'ComradeNeovim' in your JetBrains IDE plugin market to
+install it.
+
+Project page for ComradeNeovim:
+https://github.com/beeender/ComradeNeovim
+
+*comrade* also requires Neovim (0.3.2+) and python3 support.
+
+*deoplete* is needed if you want *comrade-completion* support.
+Please refer to *deoplete* project page for how to install it.
+https://github.com/Shougo/deoplete.nvim
+
+========
+USAGE    *comrade-usage*
+
+1. Open the project with your JetBrains IDE.
+2. Start using neovim to edit any files in the project. *comrade* will try to
+communicate with the JetBrains IDE to do code assistant for you.
+3. *comrade* will start to sync the buffer with JetBrains IDE's editor if the
+file is a part of the opened project. You will be able to see any changes in
+the neovim sent and shown in the JetBrains IDE editor if the plugin works.
+Otherwise, there might be a bug in *comrade* . Please make a bug report to us.
+
+========
+FEATURES    *comrade-features*
+
+JetBrains IDEs have a rich set of features for code editing. *comrade* tries
+to bring the most important part of them to neovim.
+
+--------
+COMPLETION    *comrade-completion*
+
+Please make sure you have *deoplete* installed if you want to use
+|comrade-completion| feature.
+
+If the current buffer in neovim is a part of any opened projects in the
+JetBrains IDE side, the completion should just work.
+
+--------
+LINTING        *comrade-linting*
+
+*comrade* should be able to do linting on the fly just like what JetBrains IDE
+is doing. You don't have to save the file to get the linting result. The linting
+refresh will be triggered automatically whenever there is a change in the file
+buffer.
+
+The linting items are controlled by the IDE's inspection settings. Changing
+inspection settings in the IDE side will result linting change in the neovim
+side accordingly.
+
+--------
+FIXER        *comrade-fixer*
+
+When a coding problem has been detected, *comrade* can call into the
+IDE's quick fix system to make a quick fix of it. To use this, just move the
+cursor to the problem position and call |ComradeFix| command. There is a
+default key map to this command, check |comrade-command-keybinds| for more
+information.
+
+IDE itself has a very large amount of quick fixes. Some of them require
+user's interactions in the IDE. It is quite difficult to support all of them.
+Although *comrade* restricts the fixers in a small but most important range,
+there still could be some issues with fixers like the neovim lost the focus.
+Please visit below page for discussion of this issue:
+https://github.com/beeender/Comrade/issues/1
+
+========
+COMMANDS & KEYBINDS    *comrade-commands-keybinds*
+
+ComradeFix    *ComradeFix* *g:comrade_key_fix*
+  Trigger quick fix selections at the current cursor.
+  Default key binding: >
+  <LEADER><LEADER>f
+<
+  To change the key binding: >
+  let g:comrade_key_fix = <your_mapped_keys>
+<
+
