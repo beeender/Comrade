@@ -31,6 +31,7 @@ IDE to make this work.
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 ```
 - Install this plugin.
+
 For vim-plug
 ```
 Plug 'beeender/Comrade'
