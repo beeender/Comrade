@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " Handle APIs interactions with JetBrains
 
 " Return a list of registered JetBrains channel ids.

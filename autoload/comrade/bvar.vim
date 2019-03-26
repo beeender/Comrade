@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " Manage comrade ralated buffer vars
 
 let s:bvar_key='comrade_info'

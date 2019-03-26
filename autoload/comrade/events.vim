@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 
 function! comrade#events#Init() abort
     augroup ComradeEvents

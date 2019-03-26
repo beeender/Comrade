@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " When there are multiple lines echoed, echom will block the UI thread.
 " This function will truncate the input string to one line and display
 " it without input enter prompt.

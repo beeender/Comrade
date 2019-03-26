@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " Called by JetBrains to register the buffer with the calling channel.
 " If lines is not empty, the content of buffer will be set. This means
 " whenever JetBrains try to register the buffer, the nvim buffer's content

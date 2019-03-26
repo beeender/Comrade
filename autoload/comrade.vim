@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " Called by JetBrains to set the code insight result.
 " insight_map format:
 " { start_line_number :

@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 " Based on ALE cursor.vim
 
 let g:comrade_echo_delay = get(g:, 'comrade_echo_delay', 10)

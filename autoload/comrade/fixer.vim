@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 function! comrade#fixer#FixAtCursor() abort
     let l:buffer = bufnr('')
     let l:insight = comrade#cursor#FindInsightAtCursor(l:buffer)

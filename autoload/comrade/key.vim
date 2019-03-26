@@ -1,3 +1,8 @@
+"=============================================================================
+" AUTHOR:  beeender <chenmulong at gmail.com>
+" License: GPLv3
+"=============================================================================
+
 function! s:Map(map_cmd, key, command)
     silent! execute('' . a:map_cmd . ' <buffer> ' . a:key. ' ' . a:command)
 endfunction
