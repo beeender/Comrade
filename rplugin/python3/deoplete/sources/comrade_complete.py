@@ -21,7 +21,7 @@ class Source(Base):
         self.input_pattern = (r'(\.)\w*|'
                               r'(:)\w*|'
                               r'(::)\w*|'
-                              r'(->)\w*|')
+                              r'(->)\w*')
         self.is_debug_enabled = True
 
     def gather_candidates(self, context):
