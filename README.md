@@ -109,7 +109,7 @@ Please let us know or send a PR to change the IDE support status below:
 | --- |:------:|:-------:|
 | Android Studio | verified | |
 | AppCode | unknown | |
-| CLion | unknown | |
+| CLion | verified | |
 | GoLand | unknown | |
 | IDEA | verified | |
 | PhpStorm | unknown | |
