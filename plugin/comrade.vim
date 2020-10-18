@@ -8,6 +8,10 @@
 " Fix the problem at the cursor
 command! -nargs=0 ComradeFix call comrade#fixer#FixAtCursor()
 
+" Jump to next/prev insight
+command! -nargs=0 ComradeNextInsight call comrade#insight_jump#Jump("after")
+command! -nargs=0 ComradePrevInsight call comrade#insight_jump#Jump("before")
+
 " Init
 if !exists('comrade_loaded')
     let comrade_loaded = 1
