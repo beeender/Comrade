@@ -36,7 +36,7 @@ Execute("Add and remove signs"):
   \}
   call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
-  AssertEqual [['3', '3', 'CDEWarningSign'], ['1', '11', 'CDEErrorSign']], CollectSigns()
+  AssertEqual [['1', '11', 'CDEErrorSign'], ['3', '3', 'CDEWarningSign']], CollectSigns()
 
   let insights = {
     \ 1 : [{'id' : 22, 's_line' : 1, 'severity' : 400}],
@@ -44,7 +44,7 @@ Execute("Add and remove signs"):
   \}
   call comrade#bvar#set(buffer, 'insight_map', insights)
   call comrade#sign#SetSigns(buffer)
-  AssertEqual [['3', '3', 'CDEWarningSign'], ['2', '22', 'CDEErrorSign']], CollectSigns()
+  AssertEqual [['2', '22', 'CDEErrorSign'], ['3', '3', 'CDEWarningSign']], CollectSigns()
 
   let insights = {
     \ 1 : [{'id' : 22, 's_line' : 1, 'severity' : 400}],
@@ -68,7 +68,7 @@ Execute("Signs should be cleard after buf unregistered"):
   \}
   call comrade#SetInsights(42, buffer, insights)
   call comrade#sign#SetSigns(buffer)
-  AssertEqual [['3', '3', 'CDEWarningSign'], ['1', '11', 'CDEErrorSign']], CollectSigns()
+  AssertEqual [['1', '11', 'CDEErrorSign'], ['3', '3', 'CDEWarningSign']], CollectSigns()
 
   call comrade#buffer#Unregister(buffer)
   Assert empty(CollectSigns())
@@ -83,6 +83,6 @@ Execute("Clear signs"):
   \}
   call comrade#SetInsights(42, buffer, insights)
   call comrade#sign#SetSigns(buffer)
-  AssertEqual [['3', '3', 'CDEWarningSign'], ['1', '11', 'CDEErrorSign']], CollectSigns()
+  AssertEqual [['1', '11', 'CDEErrorSign'], ['3', '3', 'CDEWarningSign']], CollectSigns()
   call comrade#sign#Clear(buffer)
   Assert empty(CollectSigns())
