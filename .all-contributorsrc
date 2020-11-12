@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "chau-bao-long",
+      "name": "Chau Bao Long",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/20348662?v=4",
+      "profile": "http://longcb.me",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Comrade",
+  "projectOwner": "beeender",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
