@@ -13,6 +13,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "hori-ryota",
+      "name": "Hori Ryota",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2936501?v=4",
+      "profile": "https://hori-ryota.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
