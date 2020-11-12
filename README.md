@@ -1,6 +1,6 @@
 # Comrade [![Build Status](https://travis-ci.com/beeender/Comrade.svg?token=Jk7Uqc68DwnrEsRwJDp7&branch=master)](https://travis-ci.com/beeender/Comrade)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **Brings JetBrains/IntelliJ IDEs magic to Neovim with minimal setup.**
@@ -158,6 +158,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://longcb.me"><img src="https://avatars2.githubusercontent.com/u/20348662?v=4" width="100px;" alt=""/><br /><sub><b>Chau Bao Long</b></sub></a><br /><a href="https://github.com/beeender/Comrade/commits?author=chau-bao-long" title="Code">💻</a></td>
     <td align="center"><a href="https://hori-ryota.com"><img src="https://avatars1.githubusercontent.com/u/2936501?v=4" width="100px;" alt=""/><br /><sub><b>Hori Ryota</b></sub></a><br /><a href="https://github.com/beeender/Comrade/commits?author=hori-ryota" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://zphixon.com"><img src="https://avatars1.githubusercontent.com/u/4751549?v=4" width="100px;" alt=""/><br /><sub><b>Zack</b></sub></a><br /><a href="https://github.com/beeender/Comrade/commits?author=zphixon" title="Documentation">📖</a></td>
   </tr>
 </table>
 
