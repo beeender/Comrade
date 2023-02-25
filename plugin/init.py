@@ -64,7 +64,11 @@ def init():
 
     # Use PID as the file name
     pid = vim.funcs.getpid()
+    # NVIM_LISTEN_ADDRESS is deprecated : https://neovim.io/doc/user/deprecated.html
     addr = os.getenv("NVIM_LISTEN_ADDRESS")
+    if addr is None:
+        addr = os.getenv("NVIM")
+
     version = vim.vars['comrade_version']
     cwd = os.getcwd()
     with open(os.path.join(CONFIG_DIR, f"{pid}"), "w") as pid_file:
